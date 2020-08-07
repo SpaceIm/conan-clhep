@@ -6,9 +6,7 @@ from conans.errors import ConanInvalidConfiguration
 
 class ClhepConan(ConanFile):
     name = "clhep"
-    description = "C++ Library for High Energy Physics, providing foundation " \
-                  "and utility classes such as random generators, physics " \
-                  "vectors, geometry and linear algebra."
+    description = "Class Library for High Energy Physics."
     license = "LGPL-3.0-only"
     topics = ("conan", "clhep", "cern", "hep", "high energy", "physics", "geometry", "algebra")
     homepage = "http://proj-clhep.web.cern.ch/proj-clhep"
