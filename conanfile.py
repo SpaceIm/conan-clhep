@@ -80,24 +80,32 @@ class ClhepConan(ConanFile):
         self.cpp_info.components["vector"].names["cmake_find_package_multi"] = vector_cmake
         self.cpp_info.components["vector"].names["pkg_config"] = "clhep-vector"
         self.cpp_info.components["vector"].libs = ["CLHEP-Vector-" + self.version]
+        if self.settings.os == "Linux":
+            self.cpp_info.components["vector"].system_libs = ["m", "pthread"]
         # Evaluator
         evaluator_cmake = "Evaluator" if self.options.shared else "EvaluatorS"
         self.cpp_info.components["evaluator"].names["cmake_find_package"] = evaluator_cmake
         self.cpp_info.components["evaluator"].names["cmake_find_package_multi"] = evaluator_cmake
         self.cpp_info.components["evaluator"].names["pkg_config"] = "clhep-evaluator"
         self.cpp_info.components["evaluator"].libs = ["CLHEP-Evaluator-" + self.version]
+        if self.settings.os == "Linux":
+            self.cpp_info.components["evaluator"].system_libs = ["m", "pthread"]
         # GenericFunctions
         genericfunctions_cmake = "GenericFunctions" if self.options.shared else "GenericFunctionsS"
         self.cpp_info.components["genericfunctions"].names["cmake_find_package"] = genericfunctions_cmake
         self.cpp_info.components["genericfunctions"].names["cmake_find_package_multi"] = genericfunctions_cmake
         self.cpp_info.components["genericfunctions"].names["pkg_config"] = "clhep-genericfunctions"
         self.cpp_info.components["genericfunctions"].libs = ["CLHEP-GenericFunctions-" + self.version]
+        if self.settings.os == "Linux":
+            self.cpp_info.components["genericfunctions"].system_libs = ["m", "pthread"]
         # Geometry
         geometry_cmake = "Geometry" if self.options.shared else "GeometryS"
         self.cpp_info.components["geometry"].names["cmake_find_package"] = geometry_cmake
         self.cpp_info.components["geometry"].names["cmake_find_package_multi"] = geometry_cmake
         self.cpp_info.components["geometry"].names["pkg_config"] = "clhep-geometry"
         self.cpp_info.components["geometry"].libs = ["CLHEP-Geometry-" + self.version]
+        if self.settings.os == "Linux":
+            self.cpp_info.components["geometry"].system_libs = ["m", "pthread"]
         self.cpp_info.components["geometry"].requires = ["vector"]
         # Random
         random_cmake = "Random" if self.options.shared else "RandomS"
@@ -105,12 +113,16 @@ class ClhepConan(ConanFile):
         self.cpp_info.components["random"].names["cmake_find_package_multi"] = random_cmake
         self.cpp_info.components["random"].names["pkg_config"] = "clhep-random"
         self.cpp_info.components["random"].libs = ["CLHEP-Random-" + self.version]
+        if self.settings.os == "Linux":
+            self.cpp_info.components["random"].system_libs = ["m", "pthread"]
         # Matrix
         matrix_cmake = "Matrix" if self.options.shared else "MatrixS"
         self.cpp_info.components["matrix"].names["cmake_find_package"] = matrix_cmake
         self.cpp_info.components["matrix"].names["cmake_find_package_multi"] = matrix_cmake
         self.cpp_info.components["matrix"].names["pkg_config"] = "clhep-matrix"
         self.cpp_info.components["matrix"].libs = ["CLHEP-Matrix-" + self.version]
+        if self.settings.os == "Linux":
+            self.cpp_info.components["matrix"].system_libs = ["m", "pthread"]
         self.cpp_info.components["matrix"].requires = ["random", "vector"]
         # RandomObjects
         randomobjects_cmake = "RandomObjects" if self.options.shared else "RandomObjectsS"
@@ -118,6 +130,8 @@ class ClhepConan(ConanFile):
         self.cpp_info.components["randomobjects"].names["cmake_find_package_multi"] = randomobjects_cmake
         self.cpp_info.components["randomobjects"].names["pkg_config"] = "clhep-randomobjects"
         self.cpp_info.components["randomobjects"].libs = ["CLHEP-RandomObjects-" + self.version]
+        if self.settings.os == "Linux":
+            self.cpp_info.components["randomobjects"].system_libs = ["m"]
         self.cpp_info.components["randomobjects"].requires = ["random", "matrix", "vector"]
         # Cast
         cast_cmake = "Cast" if self.options.shared else "CastS"
@@ -125,12 +139,16 @@ class ClhepConan(ConanFile):
         self.cpp_info.components["cast"].names["cmake_find_package_multi"] = cast_cmake
         self.cpp_info.components["cast"].names["pkg_config"] = "clhep-cast"
         self.cpp_info.components["cast"].libs = ["CLHEP-Cast-" + self.version]
+        if self.settings.os == "Linux":
+            self.cpp_info.components["cast"].system_libs = ["pthread"]
         # RefCount
         refcount_cmake = "RefCount" if self.options.shared else "RefCountS"
         self.cpp_info.components["refcount"].names["cmake_find_package"] = refcount_cmake
         self.cpp_info.components["refcount"].names["cmake_find_package_multi"] = refcount_cmake
         self.cpp_info.components["refcount"].names["pkg_config"] = "clhep-refcount"
         self.cpp_info.components["refcount"].libs = ["CLHEP-RefCount-" + self.version]
+        if self.settings.os == "Linux":
+            self.cpp_info.components["refcount"].system_libs = ["pthread"]
         # Exceptions
         exceptions_cmake = "Exceptions" if self.options.shared else "ExceptionsS"
         self.cpp_info.components["exceptions"].names["cmake_find_package"] = exceptions_cmake
