@@ -66,10 +66,7 @@ class ClhepConan(ConanFile):
         cmake = self._configure_cmake()
         cmake.install()
         tools.rmdir(os.path.join(self.package_folder, "bin"))
-        tools.rmdir(os.path.join(self.package_folder, "lib", "CLHEP-{}".format(self.version)))
-        tools.rmdir(os.path.join(self.package_folder, "lib", "pkgconfig"))
-        patterns_to_delete = ["*CLHEP.*", "*CLHEPS.*", "*CLHEP-{}.*".format(self.version), "*CLHEPS-{}.*".format(self.version)] # combined lib (duplicate of components libs)
-        patterns_to_delete.extend(["*.a"] if self.options.shared else ["*.so", "*.dylib"])
+        patterns_to_delete = ["*.a"] if self.options.shared else ["*.so", "*.dylib"]
         for pattern_to_delete in patterns_to_delete:
             for lib_file in glob.glob(os.path.join(self.package_folder, "lib", pattern_to_delete)):
                 os.remove(lib_file)

@@ -1,3 +1,21 @@
+--- a/CLHEP/CMakeLists.txt
++++ b/CLHEP/CMakeLists.txt
+@@ -117,10 +117,8 @@ add_subdirectory(RefCount)
+ add_subdirectory(Exceptions)
+ 
+ # libCLHEP.a and libCLHEP.so
+-clhep_build_libclhep( ${CLHEP_libraries} )
+ 
+ # provide tools for other packages to include CLHEP easily
+-clhep_toolchain()
+ 
+ # - Build docucumentation if required
+ if(CLHEP_BUILD_DOCS)
+@@ -147,4 +145,3 @@ if(CLHEP_BUILD_DOCS)
+ endif()
+ 
+ # Custom Packaging
+-include(ClhepPackaging)
 --- a/CLHEP/cmake/Modules/ClhepBuildLibrary.cmake
 +++ b/CLHEP/cmake/Modules/ClhepBuildLibrary.cmake
 @@ -38,10 +38,15 @@ macro(clhep_build_library package)
