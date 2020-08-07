@@ -4,9 +4,9 @@ from conans import ConanFile, CMake, tools
 
 class ClhepConan(ConanFile):
     name = "clhep"
-    description = "C++ Library providing HEP-specific foundation and utility " \
-                  "classes such as random generators, physics vectors, " \
-                  "geometry and linear algebra."
+    description = "C++ Library for High Energy Physics, providing foundation " \
+                  "and utility classes such as random generators, physics " \
+                  "vectors, geometry and linear algebra."
     license = "LGPL-3.0-only"
     topics = ("conan", "clhep", "cern", "hep", "high energy", "physics", "geometry", "algebra")
     homepage = "http://proj-clhep.web.cern.ch/proj-clhep"
@@ -51,11 +51,83 @@ class ClhepConan(ConanFile):
         return self._cmake
 
     def package(self):
-        self.copy(pattern="COPYING*", dst="licenses", src=self._source_subfolder)
+        self.copy(pattern="COPYING*", dst="licenses", src=os.path.join(self._source_subfolder, "CLHEP"))
         cmake = self._configure_cmake()
         cmake.install()
 
     def package_info(self):
         self.cpp_info.names["cmake_find_package"] = "CLHEP"
         self.cpp_info.names["cmake_find_package_multi"] = "CLHEP"
-        self.cpp_info.libs = tools.collect_libs(self)
+        self.cpp_info.names["pkg_config"] = "clhep"
+        # Vector
+        vector_cmake = "Vector" if self.options.shared else "VectorS"
+        self.cpp_info.components["vector"].names["cmake_find_package"] = vector_cmake
+        self.cpp_info.components["vector"].names["cmake_find_package_multi"] = vector_cmake
+        self.cpp_info.components["vector"].names["pkg_config"] = "clhep-vector"
+        self.cpp_info.components["vector"].libs = ["CLHEP-Vector-" + self.version]
+        # Evaluator
+        evaluator_cmake = "Evaluator" if self.options.shared else "EvaluatorS"
+        self.cpp_info.components["evaluator"].names["cmake_find_package"] = evaluator_cmake
+        self.cpp_info.components["evaluator"].names["cmake_find_package_multi"] = evaluator_cmake
+        self.cpp_info.components["evaluator"].names["pkg_config"] = "clhep-evaluator"
+        self.cpp_info.components["evaluator"].libs = ["CLHEP-Evaluator-" + self.version]
+        # GenericFunctions
+        genericfunctions_cmake = "GenericFunctions" if self.options.shared else "GenericFunctionsS"
+        self.cpp_info.components["genericfunctions"].names["cmake_find_package"] = genericfunctions_cmake
+        self.cpp_info.components["genericfunctions"].names["cmake_find_package_multi"] = genericfunctions_cmake
+        self.cpp_info.components["genericfunctions"].names["pkg_config"] = "clhep-genericfunctions"
+        self.cpp_info.components["genericfunctions"].libs = ["CLHEP-GenericFunctions-" + self.version]
+        # Geometry
+        geometry_cmake = "Geometry" if self.options.shared else "GeometryS"
+        self.cpp_info.components["geometry"].names["cmake_find_package"] = geometry_cmake
+        self.cpp_info.components["geometry"].names["cmake_find_package_multi"] = geometry_cmake
+        self.cpp_info.components["geometry"].names["pkg_config"] = "clhep-geometry"
+        self.cpp_info.components["geometry"].libs = ["CLHEP-Geometry-" + self.version]
+        self.cpp_info.components["geometry"].requires = ["vector"]
+        # Random
+        random_cmake = "Random" if self.options.shared else "RandomS"
+        self.cpp_info.components["random"].names["cmake_find_package"] = random_cmake
+        self.cpp_info.components["random"].names["cmake_find_package_multi"] = random_cmake
+        self.cpp_info.components["random"].names["pkg_config"] = "clhep-random"
+        self.cpp_info.components["random"].libs = ["CLHEP-Random-" + self.version]
+        # Matrix
+        matrix_cmake = "Matrix" if self.options.shared else "MatrixS"
+        self.cpp_info.components["matrix"].names["cmake_find_package"] = matrix_cmake
+        self.cpp_info.components["matrix"].names["cmake_find_package_multi"] = matrix_cmake
+        self.cpp_info.components["matrix"].names["pkg_config"] = "clhep-matrix"
+        self.cpp_info.components["matrix"].libs = ["CLHEP-Matrix-" + self.version]
+        self.cpp_info.components["matrix"].requires = ["random", "vector"]
+        # RandomObjects
+        randomobjects_cmake = "RandomObjects" if self.options.shared else "RandomObjectsS"
+        self.cpp_info.components["randomobjects"].names["cmake_find_package"] = randomobjects_cmake
+        self.cpp_info.components["randomobjects"].names["cmake_find_package_multi"] = randomobjects_cmake
+        self.cpp_info.components["randomobjects"].names["pkg_config"] = "clhep-randomobjects"
+        self.cpp_info.components["randomobjects"].libs = ["CLHEP-RandomObjects-" + self.version]
+        self.cpp_info.components["randomobjects"].requires = ["random", "matrix", "vector"]
+        # Cast
+        cast_cmake = "Cast" if self.options.shared else "CastS"
+        self.cpp_info.components["cast"].names["cmake_find_package"] = cast_cmake
+        self.cpp_info.components["cast"].names["cmake_find_package_multi"] = cast_cmake
+        self.cpp_info.components["cast"].names["pkg_config"] = "clhep-cast"
+        self.cpp_info.components["cast"].libs = ["CLHEP-Cast-" + self.version]
+        # RefCount
+        refcount_cmake = "RefCount" if self.options.shared else "RefCountS"
+        self.cpp_info.components["refcount"].names["cmake_find_package"] = refcount_cmake
+        self.cpp_info.components["refcount"].names["cmake_find_package_multi"] = refcount_cmake
+        self.cpp_info.components["refcount"].names["pkg_config"] = "clhep-refcount"
+        self.cpp_info.components["refcount"].libs = ["CLHEP-RefCount-" + self.version]
+        # Exceptions
+        exceptions_cmake = "Exceptions" if self.options.shared else "ExceptionsS"
+        self.cpp_info.components["exceptions"].names["cmake_find_package"] = exceptions_cmake
+        self.cpp_info.components["exceptions"].names["cmake_find_package_multi"] = exceptions_cmake
+        self.cpp_info.components["exceptions"].names["pkg_config"] = "clhep-exceptions"
+        self.cpp_info.components["exceptions"].libs = ["CLHEP-Exceptions-" + self.version]
+        self.cpp_info.components["exceptions"].requires = ["cast", "refcount"]
+        # CLHEP (global imported target including all CLHEP components)
+        global_cmake = "CLHEP" if self.options.shared else "CLHEPS"
+        self.cpp_info.components["clheplib"].names["cmake_find_package"] = global_cmake
+        self.cpp_info.components["clheplib"].names["cmake_find_package_multi"] = global_cmake
+        self.cpp_info.components["clheplib"].requires = [
+            "vector", "evaluator", "genericfunctions", "geometry", "random",
+            "matrix", "randomobjects", "cast", "refcount", "exceptions"
+        ]
