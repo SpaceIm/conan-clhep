@@ -1,6 +1,8 @@
+import glob
 import os
 
 from conans import ConanFile, CMake, tools
+from conans.errors import ConanInvalidConfiguration
 
 class ClhepConan(ConanFile):
     name = "clhep"
@@ -14,6 +16,7 @@ class ClhepConan(ConanFile):
     exports_sources = "CMakeLists.txt"
     generators = "cmake"
     settings = "os", "arch", "compiler", "build_type"
+    short_paths = True
     options = {"shared": [True, False], "fPIC": [True, False]}
     default_options = {"shared": False, "fPIC": True}
 
@@ -34,6 +37,12 @@ class ClhepConan(ConanFile):
     def configure(self):
         if self.options.shared:
             del self.options.fPIC
+        if self.settings.compiler.cppstd:
+            tools.check_min_cppstd(self, 11)
+        if self.settings.compiler == "Visual Studio" and self.options.shared:
+            raise ConanInvalidConfiguration("CLHEP doesn't properly build its shared libs with Visual Studio")
+        if self.settings.os == "Windows" and self.settings.compiler == "gcc":
+            raise ConanInvalidConfiguration("CLHEP doesn't support MinGW")
 
     def source(self):
         tools.get(**self.conan_data["sources"][self.version])
@@ -54,6 +63,14 @@ class ClhepConan(ConanFile):
         self.copy(pattern="COPYING*", dst="licenses", src=os.path.join(self._source_subfolder, "CLHEP"))
         cmake = self._configure_cmake()
         cmake.install()
+        tools.rmdir(os.path.join(self.package_folder, "bin"))
+        tools.rmdir(os.path.join(self.package_folder, "lib", "CLHEP-{}".format(self.version)))
+        tools.rmdir(os.path.join(self.package_folder, "lib", "pkgconfig"))
+        patterns_to_delete = ["*CLHEP.*", "*CLHEP-{}.*".format(self.version)] # combined lib (duplicate of components libs)
+        patterns_to_delete.extend(["*.a"] if self.options.shared else ["*.so", "*.dylib"])
+        for pattern_to_delete in patterns_to_delete:
+            for lib_file in glob.glob(os.path.join(self.package_folder, "lib", pattern_to_delete)):
+                os.remove(lib_file)
 
     def package_info(self):
         self.cpp_info.names["cmake_find_package"] = "CLHEP"
