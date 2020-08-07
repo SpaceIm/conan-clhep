@@ -18,22 +18,15 @@
 -include(ClhepPackaging)
 --- a/CLHEP/cmake/Modules/ClhepBuildLibrary.cmake
 +++ b/CLHEP/cmake/Modules/ClhepBuildLibrary.cmake
-@@ -20,32 +20,24 @@ macro(clhep_build_library package)
- 
-   # check for dependencies
-   set( package_library_list )
--  set(package_library_list_static)
-   if( ${PACKAGE}_DEPS )
-      foreach ( dep ${${PACKAGE}_DEPS} )
-         ##message( STATUS "clhep_build_library ${package} will use ${dep}")
- 	list(APPEND package_library_list ${dep})
--	list(APPEND package_library_list_static ${dep}S)
-      endforeach()
+@@ -30,22 +30,19 @@ macro(clhep_build_library package)
    endif()
  
    # Add the libraries and set properties
 -  ADD_LIBRARY(${package}  SHARED ${CLHEP_${package}_SOURCES})
 -  ADD_LIBRARY(${package}S STATIC ${CLHEP_${package}_SOURCES})
++  # Build shared or static, not both, because:
++  # - slower build
++  # - lot of issues because output names are the same + msvc shared is broken
 +  ADD_LIBRARY(${package} ${CLHEP_${package}_SOURCES})
    SET_TARGET_PROPERTIES (${package}
        PROPERTIES 
