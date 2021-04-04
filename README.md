@@ -2,9 +2,9 @@
 
 ## Package Status
 
-| Windows | Linux | macOS |
-|:-------:|:-----:|:-----:|
-|[![Build status](https://ci.appveyor.com/api/projects/status/hstoohdyy5jhpafk/branch/testing%2F2.4.1.3?svg=true)](https://ci.appveyor.com/project/SpaceIm/conan-clhep)|[![Build status](https://github.com/SpaceIm/conan-clhep/workflows/.github/workflows/linux.yml/badge.svg?branch=testing%2F2.4.1.3)](https://github.com/SpaceIm/conan-clhep/actions/workflows/linux.yml?query=branch%3Atesting%2F2.4.1.3)|[![Build status](https://github.com/SpaceIm/conan-clhep/workflows/.github/workflows/macos.yml/badge.svg?branch=testing%2F2.4.1.3)](https://github.com/SpaceIm/conan-clhep/actions/workflows/macos.yml?query=branch%3Atesting%2F2.4.1.3)|
+| Windows (MinGW) | Windows (Visual Studio) | Linux | macOS |
+|:---------------:|:-----------------------:|:-----:|:-----:|
+|[![Build status](https://ci.appveyor.com/api/projects/status/hstoohdyy5jhpafk/branch/testing%2F2.4.1.3?svg=true)](https://ci.appveyor.com/project/SpaceIm/conan-clhep)|[![Build status](https://github.com/SpaceIm/conan-clhep/workflows/.github/workflows/windows.yml/badge.svg?branch=testing%2F2.4.1.3)](https://github.com/SpaceIm/conan-clhep/actions/workflows/windows.yml?query=branch%3Atesting%2F2.4.1.3)|[![Build status](https://github.com/SpaceIm/conan-clhep/workflows/.github/workflows/linux.yml/badge.svg?branch=testing%2F2.4.1.3)](https://github.com/SpaceIm/conan-clhep/actions/workflows/linux.yml?query=branch%3Atesting%2F2.4.1.3)|[![Build status](https://github.com/SpaceIm/conan-clhep/workflows/.github/workflows/macos.yml/badge.svg?branch=testing%2F2.4.1.3)](https://github.com/SpaceIm/conan-clhep/actions/workflows/macos.yml?query=branch%3Atesting%2F2.4.1.3)|
 
 ## Description
 
